@@ -1,0 +1,24 @@
+# ~/.tmuxinator/alexandria.yml
+
+name: alexandria
+root: ~/Sync/repos/alexandria
+
+on_project_start: bin/wrap
+on_project_start: service redis start
+
+on_project_stop: bin/unwrap
+on_project_stop: service redis stop
+
+pre_window: rvm use 2.4.2@alexandria
+
+windows:
+  - dev_servers:
+      layout: main-vertical
+      panes:
+        - CI=1 bin/rails s
+        - tail -f log/solr-development.log
+        - tail -f log/fcrepo-development.log
+  - resque:
+      layout: main-vertical
+      panes:
+        - CI=1 VERBOSE=1 QUEUE='*' INTERVAL=5 bin/rake resque:work 

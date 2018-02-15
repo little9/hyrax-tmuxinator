@@ -1,0 +1,21 @@
+# ~/.tmuxinator/mahonia.yml
+
+name: mahonia
+root: ~/Sync/repos/mahonia
+pre_window: rvm use 2.4.2@mahonia
+windows:
+  - dev_servers:
+      layout: main-vertical
+      panes:
+        - rails s
+        - fcrepo_wrapper
+        - solr_wrapper
+  - test_servers:
+      layout: main-vertical
+      panes:
+        - fcrepo_wrapper --config config/fcrepo_wrapper_test.yml
+        - rm -rf tmp/solr-test && bundle exec solr_wrapper --config config/solr_wrapper_test.yml
+  - sidekiq:
+      layout: main-vertical
+      panes:
+        - bundle exec sidekiq
