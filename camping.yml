@@ -1,0 +1,18 @@
+# ~/.tmuxinator/cypripedium.yml
+
+name: camping
+root: ~/Sync/repos/camping
+
+pre_window: rvm use 2.4.2@camping
+windows:
+  - dev_servers:
+      layout: main-vertical
+      panes:
+        - rails s
+        - fcrepo_wrapper
+        - solr_wrapper
+  - test_servers:
+      layout: main-vertical
+      panes:
+        - fcrepo_wrapper --config config/fcrepo_wrapper_test.yml
+        - rm -rf tmp/solr-test && solr_wrapper --config config/solr_wrapper_test.yml
