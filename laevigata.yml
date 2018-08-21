@@ -1,0 +1,30 @@
+ #/home/jamie/.config/tmuxinator/laevigata.yml
+
+name: laevigata
+root: ~/Sync/repos/laevigata
+
+pre_window: rvm use 2.4.2@laevigata
+
+#on_project_start: sudo /etc/init.d/postgresql start && sudo /etc/init.d/redis-server start
+#on_project_stop: sudo /etc/init.d/postgresql stop && sudo /etc/init.d/redis-server stop
+
+windows:
+  - dev_servers:
+      layout: main-vertical
+      panes:
+        - rails s
+        - fcrepo_wrapper
+        - solr_wrapper
+  - test_servers:
+      layout: main-vertical
+      panes:
+        - fcrepo_wrapper --config config/fcrepo_wrapper_test.yml
+        - rm -rf tmp/solr-test && solr_wrapper --config config/solr_wrapper_test.yml
+  - js:
+      layout: main-vertical
+      panes:
+        - ./bin/webpack-dev-server
+  - console:
+      layout: main-vertical
+      panes:
+        - rails c
