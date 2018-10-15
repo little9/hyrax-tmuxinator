@@ -1,0 +1,16 @@
+# /home/jamie/.config/tmuxinator/ursus.yml
+
+name: ursus
+root: /home/jamie/repos/ursus
+
+pre_window: rvm use 2.5.1@ursus
+
+windows:
+  - dev_servers:
+      layout: main-vertical
+      panes:
+        - rails s
+  - test_servers:
+      layout: main-vertical
+      panes:
+        - rm -rf tmp/solr-test && solr_wrapper --config config/solr_wrapper_test.yml
